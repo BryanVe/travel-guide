@@ -1,36 +1,33 @@
-import { FC, ReactNode } from 'react'
+import { CSSProperties, FC, ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 
 interface ModalProps {
   visible: boolean
   children?: ReactNode
+  containerStyle?: CSSProperties
   closeModal?: () => void
 }
 
-const Modal: FC<ModalProps> = (props) => {
-  const { visible, children, closeModal } = props
+const modalRoot = document.getElementById('modal-root') as HTMLElement
 
-  return (
+const Modal: FC<ModalProps> = (props) => {
+  const { visible, children, closeModal, containerStyle } = props
+
+  if (!visible) return null
+
+  return createPortal(
     <div
       style={{
+        zIndex: 1300,
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
+        bottom: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
-        ...(!visible && {
-          display: 'none',
-        }),
+        right: 0,
       }}
+      onClick={closeModal}
     >
-      <div
-        style={{
-          position: 'absolute',
-          width: 'inherit',
-          height: 'inherit',
-        }}
-        onClick={closeModal}
-      />
       <div
         style={{
           zIndex: 300,
@@ -43,14 +40,16 @@ const Modal: FC<ModalProps> = (props) => {
           display: 'flex',
           alignItems: 'flex-end',
           flexDirection: 'column',
-          maxWidth: '40%',
-          maxHeight: '50%',
+          maxWidth: '60%',
           overflowY: 'auto',
+          ...(containerStyle && containerStyle),
         }}
+        onClick={(event) => event.stopPropagation()}
       >
         {children}
       </div>
-    </div>
+    </div>,
+    modalRoot
   )
 }
 

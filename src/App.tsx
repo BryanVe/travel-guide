@@ -1,26 +1,79 @@
 import styled from 'styled-components'
 
-import { Actions, Weather, Humidity } from 'components'
+import { Card, List, Modal, SearchInput } from 'components'
+import { useState } from 'react'
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  display: grid;
 `
 
 const Content = styled.div`
-  display: grid;
-  align-self: center;
-  justify-self: center;
-  padding: 32px;
-  border-radius: 10px;
-  background-color: #80cdee;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 80%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
-const Title = styled.span`
+const Title = styled.h1`
+  margin: 0;
   font-size: 4rem;
-  color: #fff;
+  color: #39d093;
 `
+
+const mockedCities: CityElement[] = [
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+  {
+    title: 'Buenos Aires',
+    lat: -34.6075682,
+    lng: -58.4370894,
+  },
+]
 
 const mockedCity: City = {
   title: 'Buenos Aires',
@@ -41,24 +94,56 @@ const mockedCity: City = {
 }
 
 const App = () => {
+  const [cityName, setCityName] = useState('')
+  const [loadingCities, setLoadingCities] = useState(false)
+  const [cities, setCities] = useState<CityElement[]>()
+  const [cityModalVisible, setCityModalVisible] = useState(false)
+
+  const changeCityName = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setCityName(event.target.value)
+
+  const searchCity = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter' || cityName.length === 0) return
+
+    setLoadingCities(true)
+
+    // ! Simulate fetch
+    setTimeout(() => {
+      setCities(mockedCities)
+      setLoadingCities(false)
+    }, 1000)
+  }
+
+  const openCityModal = () => setCityModalVisible(true)
+  const closeCityModal = () => setCityModalVisible(false)
+
+  const selectCity = (city: CityElement) => {
+    // console.log(city)
+    openCityModal()
+  }
+
   return (
     <Container>
       <Content>
-        <Title>{`${mockedCity.title}, ${mockedCity.country}`}</Title>
-        {/* <span>{formatDate(mockedCity.date)}</span> */}
-        {/* <Currencies city={mockedCity} /> */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Weather city={mockedCity} />
-          <Humidity city={mockedCity} />
-        </div>
-        <Actions city={mockedCity} />
+        <Title>Travel Guide</Title>
+        <SearchInput
+          placeholder='Lima, Perú'
+          value={cityName}
+          onChange={changeCityName}
+          onKeyUp={searchCity}
+        />
+        <List loading={loadingCities} cities={cities} selectCity={selectCity} />
       </Content>
+      <Modal
+        visible={cityModalVisible}
+        closeModal={closeCityModal}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 0,
+        }}
+      >
+        <Card city={mockedCity} />
+      </Modal>
     </Container>
   )
 }

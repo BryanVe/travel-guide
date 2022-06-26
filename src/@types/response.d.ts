@@ -16,3 +16,9 @@ interface City {
   date: string
   weather: Weather
 }
+
+interface CityElement {
+  title: string
+  lat: number
+  lng: number
+}

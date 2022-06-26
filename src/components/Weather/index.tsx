@@ -19,7 +19,7 @@ const Weather: FC<WeatherProps> = (props) => {
     >
       <img
         alt={city.weather.icon}
-        src={`http://openweathermap.org/img/wn/${city.weather.icon}@2x.png`}
+        src={`https://openweathermap.org/img/wn/${city.weather.icon}@2x.png`}
         style={{
           width: 100,
           alignSelf: 'center',
