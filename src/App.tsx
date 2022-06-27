@@ -45,7 +45,7 @@ const App = () => {
     try {
       setLoadingCities(true)
       const response = await fetch(`${API_URL}/cities/${cityName}`)
-      if (response.status !== 200) throw new Error('Could not load cities')
+      if (!response.ok) throw new Error('Could not load cities')
       const data: CityElement[] = await response.json()
       setCities(data)
     } catch (error) {
@@ -74,8 +74,7 @@ const App = () => {
           'Content-Type': 'application/json',
         },
       })
-      if (response.status !== 200)
-        throw new Error('Could not load selected city')
+      if (!response.ok) throw new Error('Could not load selected city')
       const data = await response.json()
       setSelectedCity(data)
     } catch (error) {
