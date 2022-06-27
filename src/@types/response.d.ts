@@ -7,18 +7,20 @@ interface Weather {
 
 interface City {
   title: string
-  description: string
+  description?: string
   country: string
   lat: number
   lng: number
-  currenISO: string
+  currentISO: string
   perDolar: number
   date: string
   weather: Weather
 }
 
 interface CityElement {
-  title: string
+  name: string
+  state?: string
+  country: string
   lat: number
-  lng: number
+  lon: number
 }

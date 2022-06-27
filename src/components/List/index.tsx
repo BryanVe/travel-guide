@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Card, Info, SearchInput, Loading } from 'components'
+import { Info, Loading } from 'components'
 import { searchSvg, noDataSvg } from 'assets'
 
 interface ListProps {
@@ -24,7 +24,7 @@ const List: FC<ListProps> = (props) => {
       }}
     >
       {loading ? (
-        <Loading />
+        <Loading spinnerColor='#39d093' />
       ) : !cities ? (
         <Info src={searchSvg} message='Busca una ciudad para comenzar' />
       ) : cities.length === 0 ? (
@@ -32,7 +32,7 @@ const List: FC<ListProps> = (props) => {
       ) : (
         cities.map((city, index) => (
           <div
-            key={`${city.title}-${index}`}
+            key={`${city.name}-${index}`}
             style={{
               backgroundColor: '#fff',
               padding: 16,
@@ -40,7 +40,9 @@ const List: FC<ListProps> = (props) => {
             }}
             onClick={() => selectCity(city)}
           >
-            {city.title} {index}
+            {[city.name, city.state, city.country]
+              .filter((el) => el)
+              .join(', ')}
           </div>
         ))
       )}

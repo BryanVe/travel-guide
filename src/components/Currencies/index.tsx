@@ -16,7 +16,7 @@ const Currencies: FC<CurrenciesProps> = (props) => {
         fontSize: 20,
       }}
     >
-      1 USD - {1 * city.perDolar} {city.currenISO}
+      1 USD - {city.perDolar} {city.currentISO}
     </span>
   )
 }

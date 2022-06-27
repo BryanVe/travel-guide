@@ -40,7 +40,8 @@ const Modal: FC<ModalProps> = (props) => {
           display: 'flex',
           alignItems: 'flex-end',
           flexDirection: 'column',
-          maxWidth: '60%',
+          width: '90%',
+          maxWidth: 700,
           overflowY: 'auto',
           ...(containerStyle && containerStyle),
         }}

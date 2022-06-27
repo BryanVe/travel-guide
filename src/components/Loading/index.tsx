@@ -1,8 +1,15 @@
+import { FC } from 'react'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import { Spinner } from './style'
 
-const Loading = () => {
+interface LoadingProps {
+  spinnerColor: string
+  color?: string
+}
+
+const Loading: FC<LoadingProps> = (props) => {
+  const { spinnerColor, color = '#000' } = props
   return (
     <div
       style={{
@@ -14,12 +21,13 @@ const Loading = () => {
         height: 150,
       }}
     >
-      <Spinner icon={faSpinner} />
+      <Spinner icon={faSpinner} color={spinnerColor} />
       <span
         style={{
           marginTop: 24,
           fontSize: 20,
           textAlign: 'center',
+          color,
         }}
       >
         Cargando

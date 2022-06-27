@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export const Spinner = styled(FontAwesomeIcon)`
+interface SpinnerProps {
+  color: string
+}
+
+export const Spinner = styled(FontAwesomeIcon)<SpinnerProps>`
   font-size: 3.5rem;
-  color: #39d093;
+  color: ${(props) => props.color};
   animation: rotation 1s infinite linear;
 
   @keyframes rotation {
